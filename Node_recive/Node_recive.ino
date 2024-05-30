@@ -9,6 +9,7 @@ uint8_t thisAddress[] = {0x78, 0x21, 0x84, 0x79, 0x79, 0x22};
 
 VL53LOX sensor;
 
+int fixed_distance = 150;
 unsigned long time_out = 0;
 unsigned long time_start = 0;
 
@@ -32,12 +33,10 @@ void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
 // Callback when data is received
 void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
     memcpy(&recei_data, incomingData, sizeof(recei_data));
-    if(recei_data.distance < 150){
-        digitalWrite(led, HIGH);
-        time_start = millis();
-        time_out = time_start + 100 * recei_data.value;
-        Serial.println(recei_data.value);
-    }
+    digitalWrite(led, HIGH);
+    time_start = millis();
+    time_out = time_start + 100 * recei_data.value;
+    Serial.println(recei_data.value);
 }
 
  
@@ -77,7 +76,7 @@ void setup() {
  
 void loop() {
     while(millis() < time_out){
-        if(!sensor.timeoutOccurred()){
+        if(int(readRangeSingleMillimeters()) < fixed_distance){
         // if(true){
             sending_data.value = int((millis() - time_start)/100);
             sending_data.distance = readRangeSingleMillimeters();
