@@ -1,6 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <espnow.h>
-#include <Adafruit_Sensor.h>
+#include <VL53LOX.h>
 #define sensor  5   //D1
 #define led     4   //D2
 #define ID      6
