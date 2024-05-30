@@ -1,6 +1,8 @@
+import argparse
 from PIL import Image
 import numpy as np
 import os
+
 
 def rgb_to_rgb565(r, g, b):
     return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
@@ -63,7 +65,10 @@ def main(image_path):
     save_to_header_file(c_array_str, header_file_name)
     print(f"Header file '{header_file_name}' created successfully.")
 
-# Parameters
-image_path = 'grafana.png'  # replace with your image path
 
-main(image_path)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Convert an image to a C header file with RGB565 format for TFT display.')
+    parser.add_argument('--input', required=True, help='Path to the input image file')
+    args = parser.parse_args()
+    
+    main(args.input)

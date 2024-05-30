@@ -16,7 +16,7 @@
 -   Move to `image_convert` directory by `cd image_convert`
 
 ```
-python converter.py
+python main.py --input="grafana.png"
 ```
 
 ![alt text](images/image.png)
