@@ -9,7 +9,6 @@ uint8_t thisAddress[] = {0x78, 0x21, 0x84, 0x79, 0x79, 0x22};
 
 VL53LOX sensor;
 
-int fixed_distance = 150;
 unsigned long time_out = 0;
 unsigned long time_start = 0;
 
@@ -77,10 +76,9 @@ void setup() {
 void loop() {
     while(millis() < time_out){
         int temp_distance = readRangeSingleMillimeters();
-        if(temp_distance < fixed_distance){
+        if(temp_distance < sending_data.distance){
         // if(true){
             sending_data.value = int((millis() - time_start)/100);
-            sending_data.distance = temp_distance;
             esp_now_send(hostAddress, (uint8_t *) &sending_data, sizeof(sending_data));
             time_out = millis();
             break;
