@@ -76,8 +76,9 @@ void setup() {
 void loop() {
     while(millis() < time_out){
         int temp_distance = readRangeSingleMillimeters();
-        if(temp_distance < sending_data.distance){
+        if(temp_distance < receiv_data.distance){
         // if(true){
+			sending_data.distance = temp_distance;
             sending_data.value = int((millis() - time_start)/100);
             esp_now_send(hostAddress, (uint8_t *) &sending_data, sizeof(sending_data));
             time_out = millis();
